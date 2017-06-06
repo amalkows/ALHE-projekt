@@ -7,3 +7,4 @@ class Meal:
 
     products = []
     nutrion_values = [0, 0]
+    max_products = 10

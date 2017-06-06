@@ -4,3 +4,4 @@ class Product:
         self.nutrion_values = nutrion_values
         self.tabu_time = tabu_time * 3
 
+    weight_resolution = 1

@@ -1,11 +1,13 @@
+from src.meal import Meal
+
 class MeatFinder:
-    iterationCount = 100
+    iteration_count = 100
 
     population = []
 
 
-    def calculateTargetFunction(self, meal):
-        print("")
+    def calculate_target_function(self, meal):
+        print()
 
     def selection(self):
         print("")
@@ -16,20 +18,22 @@ class MeatFinder:
     def cross(self):
         print("")
 
-    def generateStartSolutions(self):
+    def generate_start_solutions(self):
         print("")
 
-    def generateNewPoppulation(self):
+    def generate_new_population(self):
         print("")
 
-    def findMeat(self, productList, nutrionTarget):
+    def find_meal(self, productList, nutrionTarget):
         print("SZUKAM!")
-        self.generateStartSolutions()
 
-        for i in range(self.iterationCount):
-            self.selection()
-            self.cross()
-            self.mutation()
-            self.generateNewPoppulation()
+        return Meal([productList[0], productList[1]])
+
+        #self.generate_start_solutions()
+        #for i in range(self.iteration_count):
+            #self.selection()
+            #self.cross()
+           # self.mutation()
+           # self.generate_new_population()
 
         #ZWROC NAJLEPSZEGO ZIOMKA

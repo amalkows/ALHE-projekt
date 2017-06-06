@@ -5,7 +5,6 @@ class MeatFinder:
 
     population = []
 
-
     def calculate_target_function(self, meal):
         print()
 
@@ -24,10 +23,9 @@ class MeatFinder:
     def generate_new_population(self):
         print("")
 
-    def find_meal(self, productList, nutrionTarget):
-        print("SZUKAM!")
+    def find_meal(self, product_list, nutrionTarget):
 
-        return Meal([productList[0], productList[1]])
+        return Meal([product_list[0], product_list[1]])
 
         #self.generate_start_solutions()
         #for i in range(self.iteration_count):

@@ -26,7 +26,7 @@ class DietManager:
             for meal_number in [0,1,2]:
                 #Przygotowanie listy produktów
                 list = self.product_list[meal_number] + self.general_product_list
-                list = [item for item in list if item not in self.tabu]
+                list = [item for item in list if self.tabu.get(item.name) is None]         # DO ZMIANY USUWANIE Z LISTY PRODUKTOW, POROWNYWAC PO NAZWIE, NIE REFERENCJI
 
                 #Przeliczenie ile wartości odzywczych ma miec nastepny posilek
                 target_values = [x * self.percent[meal_number] for x in self.nutrion_values_target]
@@ -50,6 +50,6 @@ class DietManager:
                     del self.tabu[k]
 
                 for x in result.products:
-                    self.tabu[x] = x.tabu_time
+                    self.tabu[x.name] = x.tabu_time
 
             self.meal_list.append(day_meal)

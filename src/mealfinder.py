@@ -6,7 +6,6 @@ import random
 
 
 
-#TODO WYSZEDL MI POSILEK W KTROYM BYLY 3 x SURÓWKA - jakim kurde cudem?!
 class MealFinder:
     iteration_count = 50
     population_size = 30
@@ -17,10 +16,10 @@ class MealFinder:
     # prawdopodobieństwo krzyżowania
     p_cross = 15
     # prawdopodobieństwo zmiany typu w przypadku krzyżowania
-    p_cross_product_type = 5
+    p_cross_product_type = 10
 
     # na każdym prodkucie w ramach posiłku (wybieramy jeden z trzech rodzajów mutacji)
-    p_mutate_type = 5
+    p_mutate_type = 10
     p_mutate_weight = 35
     p_mutate_delete_product = 5
 
@@ -135,9 +134,9 @@ class MealFinder:
 
         new_element.correct_weight(product.weight)
 
-        for i in mutated_type_products_list:
-            if i == product.name:
-                i = available_types[index].name
+        for i in range(len(mutated_type_products_list)-1):
+            if mutated_type_products_list[i] == product.name:
+                mutated_type_products_list[i] = available_types[index].name
                 break
 
         return new_element

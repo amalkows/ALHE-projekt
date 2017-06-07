@@ -6,12 +6,11 @@ import copy
 import random
 
 
-# TODO!!!!! UWZGLEDNIC MAKS K PRODUKTOW W POSILKU (parametr max_producs z meal.py)
 class MealFinder:
     iteration_count = 50
-    population_size = 15
+    population_size = 30
     # elita
-    always_in_next_population = 5
+    always_in_next_population = 10
 
     # w przypadku krzyżowania każdy produkt w posiłku może zamienić typ z produktem z innego posiłku
     # prawdopodobieństwo krzyżowania
@@ -22,44 +21,44 @@ class MealFinder:
     # na każdym prodkucie w ramach posiłku (wybieramy jeden z trzech rodzajów mutacji)
     p_mutate_type = 5
     p_mutate_weight = 15
-    p_mutate_delete_element = 5
+    p_mutate_delete_product = 5
 
     # prawdopodobieństwo dodania posiłku
-    p_mutate_add_element = 15
+    p_mutate_add_product = 15
 
     # słownik: [klucz] referencja do obiektu - [wartość] jakość (funkcja celu)
     population = {}
 
-    nutrion_target = []
+    nutrition_target = []
     product_list = []
 
     def calculate_target_function(self, meal):
         result = 0
         weights_sum = 0
-        for x, y, z in zip(meal.nutrion_values, meal.nutrion_wieghts, self.nutrion_target):
+        for x, y, z in zip(meal.nutrition_values, meal.nutrition_weights, self.nutrition_target):
             result += ((x - z) ** 2) * y
             weights_sum += y
 
         return result / weights_sum
 
-    # TODO - trzeba ustalić, ile selekcja będzie zwracać osobników
+    # TODO - trzeba ustalić, ile selekcja będzie zwracać osobników - A.M.: wszystkich?
     def selection(self):
         selected_points = []
-        sum_of_target_fuction = 0
+        sum_of_target_function = 0
         probabilities = []
 
-        for target_fuction in self.population.values():
-            sum_of_target_fuction += 1/target_fuction
+        for target_function in self.population.values():
+            sum_of_target_function += 1/target_function
 
-        target_fuction_list = list(self.population.values())
+        target_function_list = list(self.population.values())
 
-        probabilities.append((1 / target_fuction_list[0])/sum_of_target_fuction)
+        probabilities.append((1 / target_function_list[0])/sum_of_target_function)
 
         for i in range(0, len(self.population)-1):
-            probabilities.append(probabilities[i] + (1 / target_fuction_list[i+1])/sum_of_target_fuction)
+            probabilities.append(probabilities[i] + (1 / target_function_list[i+1])/sum_of_target_function)
 
         probabilities[len(probabilities)-1] = 1
-        #print(probabilities)
+
         for i in range(0, self.population_size):
             random_number = uniform(0, 1)
             for j in range(1, len(probabilities)):
@@ -72,32 +71,32 @@ class MealFinder:
     def mutation(self, population):
         new_population = []
         for item in population:
-            new_population.append(self.mutate_element(item))
+            new_population.append(self.mutate_meal(item))
         return new_population
 
-    def mutate_element(self, element):
+    def mutate_meal(self, meal):
         mutated_products = []
-        mutated_type_products_list = [item.name for item in element.products]
-        for product in element.products:
+        mutated_type_products_list = [item.name for item in meal.products]
+        for product in meal.products:
             random_number = uniform(0, 100)
             if random_number < self.p_mutate_type:
-                mutated_products.append(self.mutate_type_element(product, mutated_type_products_list))
+                mutated_products.append(self.mutate_type_product(product, mutated_type_products_list))
             elif random_number < self.p_mutate_type + self.p_mutate_weight:
-                mutated_products.append(self.mutate_weight_element(product))
-            elif random_number < 100 - self.p_mutate_delete_element:
+                mutated_products.append(self.mutate_weight_product(product))
+            elif random_number < 100 - self.p_mutate_delete_product:
                 mutated_products.append(copy.deepcopy(product))
 
-        if uniform(0, 100) < self.p_mutate_add_element:
-            new_meal = self.mutate_add_element(mutated_products)
+        if uniform(0, 100) < self.p_mutate_add_product and len(mutated_products) < Meal.max_products:
+            new_meal = self.mutate_add_product(mutated_products)
             if new_meal is not None:
                 mutated_products.append(new_meal)
 
         new_element = Meal(mutated_products)
-        new_element.calculate_nutrion_values()
+        new_element.calculate_nutrition_values()
 
         return new_element
 
-    def mutate_weight_element(self, element):
+    def mutate_weight_product(self, element):
 
         new_element = copy.deepcopy(element)
         # wykorzystać correct_weight
@@ -109,19 +108,19 @@ class MealFinder:
 
         return new_element
 
-    def mutate_add_element(self, mutated_products):
-        list = [item for item in self.product_list if
+    def mutate_add_product(self, mutated_products):
+        potential_new_products = [item for item in self.product_list if
                 next((i for i in mutated_products if i.name == item.name), None) is None]
 
-        if len(list) == 0:
+        if len(potential_new_products) == 0:
             return None
 
-        index = random.randint(0, len(list) - 1)
-        product = copy.deepcopy(list[index])
+        index = random.randint(0, len(potential_new_products) - 1)
+        product = copy.deepcopy(potential_new_products[index])
 
         return product
 
-    def mutate_type_element(self, product, mutated_type_products_list):
+    def mutate_type_product(self, product, mutated_type_products_list):
 
         available_types = [item for item in self.product_list if
                            next((i for i in mutated_type_products_list if i == item.name), None) is None]
@@ -148,16 +147,19 @@ class MealFinder:
         for item in population:
             item_cross = uniform(0, 100)
             if item_cross < self.p_cross:
-                index = random.randint(0, len(
-                    population) - 1)  # losuje ziomka do krzyżowania TODO zrobić tak, żeby nie było samogwałtu
-                new_population.append(self.cross_element(item, population[index]))
+                index = random.randint(0, len(population) - 1)
+                new_population.append(self.cross_meals(item, population[index]))
             else:
                 new_population.append(item)
 
         return new_population
 
-    def cross_element(self, meal1, meal2):
+    def cross_meals(self, meal1, meal2):
         new_meal = copy.deepcopy(meal1)
+
+        if meal1 == meal2:
+            return new_meal
+
         # parametr pomocniczy (sumowanie ziemniaczków)
         product_uses = {}
 
@@ -180,7 +182,7 @@ class MealFinder:
         product_base.min_weight = product2.min_weight
         product_base.max_weight = product2.max_weight
         product_base.weight_resolution = product2.weight_resolution
-        product_base.nutrion_values = product2.nutrion_values
+        product_base.nutrition_values = product2.nutrition_values
 
         product_base.correct_weight(product_base.weight)
 
@@ -210,15 +212,15 @@ class MealFinder:
 
         return dict(old_bests.items() | new_population.items())
 
-    def find_meal(self, product_list, nutrion_target):
+    def find_meal(self, product_list, nutrition_target):
 
-        self.nutrion_target = nutrion_target
+        self.nutrition_target = nutrition_target
         self.product_list = product_list
         self.population = self.generate_start_solutions()
         q = list(self.population.keys())
         for i in range(self.iteration_count):
-            selcted_population = self.selection()
-            crossed = self.cross(selcted_population)
+            selected_population = self.selection()
+            crossed = self.cross(selected_population)
             mutated = self.mutation(crossed)
 
             self.population = self.generate_new_population(mutated)
@@ -232,6 +234,3 @@ class MealFinder:
         print(min(self.population.values()))
 
         return min(self.population, key=self.population.get)
-
-    if __name__ == "__main__":
-        print("kupa")

@@ -43,7 +43,7 @@ obj.add_product(3, Product("Chleb", [1], 1,10, 1, 5))
 obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
 
-obj.nutrion_values_target = [1500]
+obj.nutrition_values_target = [2000]
 
 obj.generate_n_days_diet(1)
 counter = 0

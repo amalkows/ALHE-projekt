@@ -3,11 +3,13 @@ from src.mealfinder import MealFinder
 
 class DietManager:
 
+    nutrition_values_count = 1
+
     product_list = [[], [], []]
     general_product_list = []
     meal_list = []
 
-    nutrion_values_target = [0, 0]
+    nutrition_values_target = [0, 0]
     #Wyciągnąć na zewnątrz
     percent = [0.3, 0.5, 0.2]
 
@@ -33,7 +35,7 @@ class DietManager:
                 list = [item for item in list if self.tabu.get(item.name) is None]
 
                 #Przeliczenie ile wartości odzywczych ma miec nastepny posilek
-                target_values = [x * self.percent[meal_number] for x in self.nutrion_values_target]
+                target_values = [x * self.percent[meal_number] for x in self.nutrition_values_target]
                 target_values = [x - y for x, y in zip(target_values, delta)]
 
                 #Znalezienie posilku i zapisanie go
@@ -41,7 +43,7 @@ class DietManager:
                 day_meal.append(result)
 
                 #Policzenie odchylu od zadanych wartosci
-                delta = [x - y for x, y in zip(result.nutrion_values, target_values)]
+                delta = [x - y for x, y in zip(result.nutrition_values, target_values)]
 
                 #Aktualizacja tabu - decrementacja licznikow, czyszczenie, dodanie nowych
                 #lista posiłków do usunięcia z tabu

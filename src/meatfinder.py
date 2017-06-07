@@ -5,10 +5,12 @@ from src.product import Product
 import copy
 import random
 
+
+#TODO!!!!! UWZGLEDNIC MAKS K PRODUKTOW W POSILKU
 class MeatFinder:
-    iteration_count = 10
-    population_size = 5
-    always_in_next_population = 2
+    iteration_count = 50
+    population_size = 15
+    always_in_next_population = 5
 
     p_cross = 15
     p_cross_product_type = 5
@@ -55,7 +57,9 @@ class MeatFinder:
 
         random_number = uniform(0, 100)
         if random_number < self.p_mutate_add_element:
-            mutated_products.append(self.mutate_add_element(mutated_products))
+            new_meal = self.mutate_add_element(mutated_products)
+            if new_meal is not None:
+                mutated_products.append(new_meal)
 
         new_element = Meal(mutated_products)
         new_element.calculate_nutrion_values()
@@ -76,6 +80,9 @@ class MeatFinder:
     def mutate_add_element(self, mutated_products):
         list = [item for item in self.product_list if next((i for i in mutated_products if i.name == item.name), None) is None]
 
+        if len(list) == 0:
+            return None
+
         index = random.randint(0, len(list)-1)
         product = copy.deepcopy(list[index])
 
@@ -84,6 +91,10 @@ class MeatFinder:
     def mutate_type_element(self, element, mutated_type_products_list):
 
         available_types = [item for item in self.product_list if next((i for i in mutated_type_products_list if i == item.name), None) is None]
+
+        if len(available_types) == 0:
+            return copy.deepcopy(element)
+
         index = random.randint(0, len(available_types)-1)
 
         new_element = copy.deepcopy(available_types[index])
@@ -177,5 +188,6 @@ class MeatFinder:
 
         q = list(self.population.keys())
 
+        print(min(self.population.values()))
 
         return min(self.population, key=self.population.get)

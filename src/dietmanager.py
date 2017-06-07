@@ -23,7 +23,7 @@ class DietManager:
         for x in range(n):
             day_meal = []
             delta = [0, 0, 0]
-            for meal_number in [0]:
+            for meal_number in [0,1,2]:
                 #Przygotowanie listy produktów
                 list = self.product_list[meal_number] + self.general_product_list
                 list = [item for item in list if self.tabu.get(item.name) is None]         # DO ZMIANY USUWANIE Z LISTY PRODUKTOW, POROWNYWAC PO NAZWIE, NIE REFERENCJI

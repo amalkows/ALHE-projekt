@@ -26,7 +26,7 @@ class DietManager:
         for x in range(n):
             day_meal = []
             #odchył od norm
-            delta = [0, 0, 0]
+            delta = [0 for i in range(Meal.nutrition_values_count)]
             #generacja dla każdego posiłku w ciągu dnia
             for meal_number in [0,1,2]:
                 #Przygotowanie listy produktów

@@ -17,7 +17,7 @@ counter = 0
 for i in obj.meal_list:
     counter += 1
     print("Dzien", counter)
-    for k in [0, 1, 2]:
+    for k in [0]:
         print(" Posiłek", k+1)
         for j in i[k].products:
             print("     ",j.name, j.weight)

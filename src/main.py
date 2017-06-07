@@ -25,10 +25,12 @@ generator = DataGenerator()
 
 #OBIAD
 
+
 #obj.add_product(1, Product("Schabowy", [5], 2, 150, 1, 2))
 #obj.add_product(1, Product("Surówka", [1], 1, 10, 10, 5))
 #obj.add_product(1, Product("Frytki", [1], 1,  1, 10, 50))
 #obj.add_product(1, Product("Ziemniaki", [1], 1, 1, 10, 150))
+
 
 #KOLACJA
 

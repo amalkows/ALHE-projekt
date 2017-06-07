@@ -48,16 +48,16 @@ class MealFinder:
         probabilities = []
 
         for target_function in self.population.values():
-            sum_of_target_function += 1/target_function
+            sum_of_target_function += 1 / target_function
 
         target_function_list = list(self.population.values())
 
-        probabilities.append((1 / target_function_list[0])/sum_of_target_function)
+        probabilities.append((1 / target_function_list[0]) / sum_of_target_function)
 
-        for i in range(0, len(self.population)-1):
-            probabilities.append(probabilities[i] + (1 / target_function_list[i+1])/sum_of_target_function)
+        for i in range(0, len(self.population) - 1):
+            probabilities.append(probabilities[i] + (1 / target_function_list[i + 1]) / sum_of_target_function)
 
-        probabilities[len(probabilities)-1] = 1
+        probabilities[len(probabilities) - 1] = 1
 
         for i in range(0, self.population_size):
             random_number = uniform(0, 1)
@@ -110,7 +110,7 @@ class MealFinder:
 
     def mutate_add_product(self, mutated_products):
         potential_new_products = [item for item in self.product_list if
-                next((i for i in mutated_products if i.name == item.name), None) is None]
+                                  next((i for i in mutated_products if i.name == item.name), None) is None]
 
         if len(potential_new_products) == 0:
             return None
@@ -190,16 +190,32 @@ class MealFinder:
 
     def generate_start_solutions(self):
         population = {}
-        for i in range(Meal.nutrition_values_count):
-            product = self.generate_start_meal(i)
-            population[product] = self.calculate_target_function(product)
+        for i in range(self.population_size):
+            meal = self.generate_start_meal(random.randint(0, Meal.nutrition_values_count - 1))
+            population[meal] = self.calculate_target_function(meal)
         return population
 
-    #TODO Generowanie rozwiazania zachlannego ze wzgledu na zadany parametr
-    def generate_start_meal(self, nutrition_number):
-        lista = [copy.deepcopy(self.product_list[1]), copy.deepcopy(self.product_list[2])]
-        product = Meal(lista)
-        return product
+    # TODO Generowanie rozwiazania zachlannego ze wzgledu na zadany parametr
+    def generate_start_meal(self, nutrition_index):
+        meal = []
+        nutrition_weight = 0
+        unused_products = copy.deepcopy(self.product_list)
+        for i in range(0, Meal.max_products):
+            if len(unused_products) == 0:
+                break
+            product_index = random.randint(0, len(unused_products) - 1)
+            product_weight = unused_products[product_index].get_max_weight(nutrition_index,
+                                                                           self.nutrition_target[
+                                                                               nutrition_index] - nutrition_weight)
+            if product_weight == 0:
+                break
+            else:
+                unused_products[product_index].weight = product_weight
+                nutrition_weight += product_weight * unused_products[product_index].nutrition_values[nutrition_index] * \
+                                    unused_products[product_index].weight_resolution
+                meal.append(unused_products[product_index])
+                unused_products.remove(unused_products[product_index])
+        return Meal(meal)
 
     def generate_new_population(self, mutated_population):
         new_population = {}
@@ -220,16 +236,21 @@ class MealFinder:
         self.product_list = product_list
         self.population = self.generate_start_solutions()
         for i in range(self.iteration_count):
+            min_value = min(self.population.values())
+            if min_value == 0:
+                break
             selected_population = self.selection()
             crossed = self.cross(selected_population)
             mutated = self.mutation(crossed)
 
             self.population = self.generate_new_population(mutated)
 
-            min_value = min(self.population.values())
-            if min_value == 0:
-                break
+        print(min(self.population.values()))
 
-        #print(min(self.population.values()))
 
         return min(self.population, key=self.population.get)
+
+
+if __name__ == "__main__":
+    for i in range(10, 1, -1):
+        print(i)

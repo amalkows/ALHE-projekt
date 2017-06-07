@@ -46,18 +46,26 @@ class MealFinder:
     def selection(self):
         selected_points = []
         sum_of_target_fuction = 0
-        probabilities = [0]
+        probabilities = []
+
         for target_fuction in self.population.values():
-            sum_of_target_fuction += 1 / target_fuction
-        for i in range(0, len(self.population)):
-            probabilities.append(probabilities[i] + sum_of_target_fuction / target_fuction)
-        probabilities[len(probabilities)-1] = 1;
-        print(probabilities)
+            sum_of_target_fuction += 1/target_fuction
+
+        target_fuction_list = list(self.population.values())
+
+        probabilities.append((1 / target_fuction_list[0])/sum_of_target_fuction)
+
+        for i in range(0, len(self.population)-1):
+            probabilities.append(probabilities[i] + (1 / target_fuction_list[i+1])/sum_of_target_fuction)
+
+        probabilities[len(probabilities)-1] = 1
+        #print(probabilities)
         for i in range(0, self.population_size):
             random_number = uniform(0, 1)
-            for i in range(1,len(probabilities)):
-                if probabilities[i] <= random_number:
-                    selected_points.append(self.population[i-1])
+            for j in range(1, len(probabilities)):
+                if probabilities[j] > random_number:
+                    a = list(self.population.keys())
+                    selected_points.append(a[j-1])
                     break
         return selected_points
 
@@ -207,13 +215,17 @@ class MealFinder:
         self.nutrion_target = nutrion_target
         self.product_list = product_list
         self.population = self.generate_start_solutions()
-
+        q = list(self.population.keys())
         for i in range(self.iteration_count):
             selcted_population = self.selection()
             crossed = self.cross(selcted_population)
             mutated = self.mutation(crossed)
 
             self.population = self.generate_new_population(mutated)
+
+            min_value = min(self.population.values())
+            if min_value == 0:
+                break
 
         q = list(self.population.keys())
 

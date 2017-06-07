@@ -14,13 +14,13 @@ class MealFinder:
 
     # w przypadku krzyżowania każdy produkt w posiłku może zamienić typ z produktem z innego posiłku
     # prawdopodobieństwo krzyżowania
-    p_cross = 15
+    p_cross = 25
     # prawdopodobieństwo zmiany typu w przypadku krzyżowania
-    p_cross_product_type = 10
+    p_cross_product_type = 15
 
     # na każdym prodkucie w ramach posiłku (wybieramy jeden z trzech rodzajów mutacji)
     p_mutate_type = 10
-    p_mutate_weight = 35
+    p_mutate_weight = 50
     p_mutate_delete_product = 5
 
     # prawdopodobieństwo dodania posiłku
@@ -164,7 +164,7 @@ class MealFinder:
         product_uses = {}
 
         for product in new_meal.products:
-            if uniform(0, 100) < self.p_cross_product_type:
+            if uniform(0, 100) < self.p_cross_product_type and len(meal2.products) > 1:
                 self.cross_product_type(product, meal2.products[random.randint(0, len(meal2.products) - 1)])
 
             if product_uses.get(product.name, None) is None:
@@ -230,6 +230,6 @@ class MealFinder:
             if min_value == 0:
                 break
 
-        print(min(self.population.values()))
+        #print(min(self.population.values()))
 
         return min(self.population, key=self.population.get)

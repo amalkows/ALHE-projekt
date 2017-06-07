@@ -1,9 +1,11 @@
 from src.dietmanager import DietManager
 from src.product import Product
 from src.meal import Meal
+from src.datagenerator import DataGenerator
+
 
 obj = DietManager()
-
+generator = DataGenerator()
 
 #    def __init__(self, name = "", nutrion_values=[0,0], tabu_time = 1, weight = 1, weight_resolution = 1, min_weight = 1, max_weight = 10):
 
@@ -16,39 +18,50 @@ obj = DietManager()
 
 #SNIADANIE
 
-obj.add_product(0, Product("Jajko", [10], 2, 5, 1, 5))
-obj.add_product(0, Product("Grzanka", [5], 1, 10, 1, 5))
-obj.add_product(0, Product("Maslo", [1], 1, 1, 1, 50))
-obj.add_product(0, Product("Mleko", [1], 2, 1, 1, 150))
+#obj.add_product(0, Product("Jajko", [10], 2, 5, 1, 5))
+#obj.add_product(0, Product("Grzanka", [5], 1, 10, 1, 5))
+#obj.add_product(0, Product("Maslo", [1], 1, 1, 1, 50))
+#obj.add_product(0, Product("Mleko", [1], 2, 1, 1, 150))
 
 #OBIAD
 
-obj.add_product(1, Product("Schabowy", [5], 2, 150, 1, 2))
-obj.add_product(1, Product("Surówka", [1], 1, 10, 5, 10))
-obj.add_product(1, Product("Frytki", [1], 1,  1, 10, 50))
-obj.add_product(1, Product("Ziemniaki", [1], 1, 1, 10, 150))
+
+#obj.add_product(1, Product("Schabowy", [5], 2, 150, 1, 2))
+#obj.add_product(1, Product("Surówka", [1], 1, 10, 10, 5))
+#obj.add_product(1, Product("Frytki", [1], 1,  1, 10, 50))
+#obj.add_product(1, Product("Ziemniaki", [1], 1, 1, 10, 150))
+
 
 #KOLACJA
 
-obj.add_product(2, Product("Platki", [3], 1, 2, 1, 100))
-obj.add_product(2, Product("Czipsy", [5], 1, 3, 1, 50))
-obj.add_product(2, Product("Jablko", [1], 1, 30, 1, 5))
-obj.add_product(2, Product("Miod", [5], 1, 1, 1, 150))
+#obj.add_product(2, Product("Platki", [3], 1, 2, 1, 100))
+#obj.add_product(2, Product("Czipsy", [5], 1, 3, 1, 50))
+#obj.add_product(2, Product("Jablko", [1], 1, 30, 1, 5))
+#obj.add_product(2, Product("Miod", [5], 1, 1, 1, 150))
 
 
 #OGOLNE
 
-obj.add_product(3, Product("Herbata", [1], 2, 150, 1, 2))
-obj.add_product(3, Product("Ciastko", [1], 1, 50, 1, 2))
-obj.add_product(3, Product("Chleb", [1], 1,10, 1, 5))
-obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
+#obj.add_product(3, Product("Herbata", [1], 2, 150, 1, 2))
+#obj.add_product(3, Product("Ciastko", [1], 1, 50, 1, 2))
+#obj.add_product(3, Product("Chleb", [1], 1,10, 1, 5))
+#obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
 
-obj.nutrition_values_target = [2000]
-Meal.nutrition_values_count = 1
+obj.nutrition_values_target = [3000, 300, 300, 200]
+Meal.nutrition_values_count = 4
 Meal.set_standard_weights()
 
-obj.generate_n_days_diet(1)
+for i in range(100):
+    obj.add_product(0, generator.generate_product())
+for i in range(100):
+    obj.add_product(1, generator.generate_product())
+for i in range(100):
+    obj.add_product(2, generator.generate_product())
+for i in range(100):
+    obj.add_product(3, generator.generate_product())
+
+obj.generate_n_days_diet(5)
 counter = 0
 for i in obj.meal_list:
     counter += 1

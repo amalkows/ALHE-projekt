@@ -8,6 +8,9 @@ class Product:
         self.weight_resolution = weight_resolution
         self.min_weight = min_weight
         self.max_weight = max_weight
+        if min_weight > max_weight:
+            self.max_weight = min_weight
+            self.min_weight = max_weight
 
     # funkcja służąca do naprawy wagi, by mieściła się w widelkach
     def correct_weight(self, weight):

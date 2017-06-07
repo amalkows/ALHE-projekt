@@ -1,4 +1,4 @@
-from src.meatfinder import MeatFinder
+from src.mealfinder import MealFinder
 
 
 class DietManager:
@@ -11,7 +11,7 @@ class DietManager:
     percent = [0.3, 0.5, 0.2]
 
     tabu = {}
-    finder = MeatFinder()
+    finder = MealFinder()
 
     def add_product(self, meal, product):
         if meal > 2:

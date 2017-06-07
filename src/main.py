@@ -15,32 +15,32 @@ obj = DietManager()
 
 #SNIADANIE
 
-obj.add_product(0, Product("Jajko", [10], 2, 1, 5, 1, 5))
-obj.add_product(0, Product("Grzanka", [5], 1, 1, 10, 1, 5))
-obj.add_product(0, Product("Maslo", [1], 1, 1, 1, 1, 50))
-obj.add_product(0, Product("Mleko", [1], 2, 1, 1, 1, 150))
+obj.add_product(0, Product("Jajko", [10], 2, 5, 1, 5))
+obj.add_product(0, Product("Grzanka", [5], 1, 10, 1, 5))
+obj.add_product(0, Product("Maslo", [1], 1, 1, 1, 50))
+obj.add_product(0, Product("Mleko", [1], 2, 1, 1, 150))
 
 #OBIAD
 
-obj.add_product(1, Product("Schabowy", [5], 2, 1, 150, 1, 2))
-obj.add_product(1, Product("Surówka", [1], 1, 10, 10, 10, 5))
-obj.add_product(1, Product("Frytki", [1], 1, 10, 1, 10, 50))
-obj.add_product(1, Product("Ziemniaki", [1], 1, 10, 1, 10, 150))
+obj.add_product(1, Product("Schabowy", [5], 2, 150, 1, 2))
+obj.add_product(1, Product("Surówka", [1], 1, 10, 10, 5))
+obj.add_product(1, Product("Frytki", [1], 1,  1, 10, 50))
+obj.add_product(1, Product("Ziemniaki", [1], 1, 1, 10, 150))
 
 #KOLACJA
 
-obj.add_product(2, Product("Platki", [1], 1, 1, 1, 1, 150))
-obj.add_product(2, Product("Czipsy", [3], 1, 1, 1, 1, 150))
-obj.add_product(2, Product("Jablko", [1], 1, 1, 1, 1, 150))
-obj.add_product(2, Product("Miod", [5], 1, 1, 1, 1, 150))
+obj.add_product(2, Product("Platki", [1], 1, 1, 1, 150))
+obj.add_product(2, Product("Czipsy", [3], 1, 1, 1, 150))
+obj.add_product(2, Product("Jablko", [1], 1, 1, 1, 150))
+obj.add_product(2, Product("Miod", [5], 1, 1, 1, 150))
 
 
 #OGOLNE
 
-obj.add_product(3, Product("Herbata", [1], 2, 1, 150, 1, 2))
-obj.add_product(3, Product("Ciastko", [1], 1, 1, 50, 1, 2))
-obj.add_product(3, Product("Chleb", [1], 1, 1, 10, 1, 5))
-obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 1, 150))
+obj.add_product(3, Product("Herbata", [1], 2, 150, 1, 2))
+obj.add_product(3, Product("Ciastko", [1], 1, 50, 1, 2))
+obj.add_product(3, Product("Chleb", [1], 1,10, 1, 5))
+obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
 
 obj.nutrion_values_target = [1500]
@@ -54,3 +54,11 @@ for i in obj.meal_list:
         print(" Posiłek", k+1)
         for j in i[k].products:
             print("     ",j.name, j.weight)
+
+#refektoryzacja
+#napisać bardziej generycznie
+#sprawdzić, czy to działa
+#nowa selekcja
+#nowa generacja stratowej populacji
+#uwzględnić parametr maksymalnej liczności posiłku
+#API dobre do użytku

@@ -1,5 +1,6 @@
 from src.dietmanager import DietManager
 from src.product import Product
+from src.meal import Meal
 
 obj = DietManager()
 
@@ -29,9 +30,9 @@ obj.add_product(1, Product("Ziemniaki", [1], 1, 1, 10, 150))
 
 #KOLACJA
 
-obj.add_product(2, Product("Platki", [1], 1, 1, 1, 150))
-obj.add_product(2, Product("Czipsy", [3], 1, 1, 1, 150))
-obj.add_product(2, Product("Jablko", [1], 1, 1, 1, 150))
+obj.add_product(2, Product("Platki", [3], 1, 2, 1, 100))
+obj.add_product(2, Product("Czipsy", [5], 1, 3, 1, 50))
+obj.add_product(2, Product("Jablko", [1], 1, 30, 1, 5))
 obj.add_product(2, Product("Miod", [5], 1, 1, 1, 150))
 
 
@@ -44,6 +45,8 @@ obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
 
 obj.nutrition_values_target = [2000]
+Meal.nutrition_values_count = 1
+Meal.set_standard_weights()
 
 obj.generate_n_days_diet(1)
 counter = 0

@@ -1,11 +1,12 @@
 from src.meal import Meal
 from collections import Counter
-from random import uniform, randint
-from src.product import Product
+from random import uniform
 import copy
 import random
 
 
+
+#TODO WYSZEDL MI POSILEK W KTROYM BYLY 3 x SURÓWKA - jakim kurde cudem?!
 class MealFinder:
     iteration_count = 50
     population_size = 30
@@ -20,11 +21,11 @@ class MealFinder:
 
     # na każdym prodkucie w ramach posiłku (wybieramy jeden z trzech rodzajów mutacji)
     p_mutate_type = 5
-    p_mutate_weight = 15
+    p_mutate_weight = 35
     p_mutate_delete_product = 5
 
     # prawdopodobieństwo dodania posiłku
-    p_mutate_add_product = 15
+    p_mutate_add_product = 25
 
     # słownik: [klucz] referencja do obiektu - [wartość] jakość (funkcja celu)
     population = {}
@@ -61,10 +62,10 @@ class MealFinder:
 
         for i in range(0, self.population_size):
             random_number = uniform(0, 1)
-            for j in range(1, len(probabilities)):
+            for j in range(0, len(probabilities)):
                 if probabilities[j] > random_number:
                     a = list(self.population.keys())
-                    selected_points.append(a[j-1])
+                    selected_points.append(a[j])
                     break
         return selected_points
 
@@ -165,7 +166,7 @@ class MealFinder:
 
         for product in new_meal.products:
             if uniform(0, 100) < self.p_cross_product_type:
-                self.cross_element_type(product, meal2.products[random.randint(0, len(meal2.products) - 1)])
+                self.cross_product_type(product, meal2.products[random.randint(0, len(meal2.products) - 1)])
 
             if product_uses.get(product.name, None) is None:
                 product_uses[product.name] = product
@@ -177,7 +178,7 @@ class MealFinder:
         return new_meal
 
     # działa, ale pomyśleć nad refaktoryzacją
-    def cross_element_type(self, product_base, product2):
+    def cross_product_type(self, product_base, product2):
         product_base.name = product2.name
         product_base.min_weight = product2.min_weight
         product_base.max_weight = product2.max_weight
@@ -188,16 +189,18 @@ class MealFinder:
 
         return product_base
 
-    # funkcja przypał
-    # TODO - zrobić tak, by było ładnie i w zgodzie z dokumnetacją
     def generate_start_solutions(self):
         population = {}
-        for i in range(self.population_size):
-            lista = [copy.deepcopy(self.product_list[i % 3]), copy.deepcopy(self.product_list[(i + 1) % 3])]
-            product = Meal(lista)
+        for i in range(Meal.nutrition_values_count):
+            product = self.generate_start_meal(i)
             population[product] = self.calculate_target_function(product)
-
         return population
+
+    #TODO Generowanie rozwiazania zachlannego ze wzgledu na zadany parametr
+    def generate_start_meal(self, nutrition_number):
+        lista = [copy.deepcopy(self.product_list[1]), copy.deepcopy(self.product_list[2])]
+        product = Meal(lista)
+        return product
 
     def generate_new_population(self, mutated_population):
         new_population = {}
@@ -217,7 +220,6 @@ class MealFinder:
         self.nutrition_target = nutrition_target
         self.product_list = product_list
         self.population = self.generate_start_solutions()
-        q = list(self.population.keys())
         for i in range(self.iteration_count):
             selected_population = self.selection()
             crossed = self.cross(selected_population)
@@ -228,8 +230,6 @@ class MealFinder:
             min_value = min(self.population.values())
             if min_value == 0:
                 break
-
-        q = list(self.population.keys())
 
         print(min(self.population.values()))
 

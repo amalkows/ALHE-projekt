@@ -1,5 +1,5 @@
 class Product:
-    def __init__(self, name="", nutrition_values=[0,0], tabu_time=1, weight_resolution=1, min_weight=1,
+    def __init__(self, name="", nutrition_values=[0], tabu_time=1, weight_resolution=1, min_weight=1,
                  max_weight=10, weight=1):
         self.name = name
         self.nutrition_values = nutrition_values

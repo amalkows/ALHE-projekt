@@ -1,15 +1,14 @@
 from src.mealfinder import MealFinder
-
+from src.meal import Meal
 
 class DietManager:
 
-    nutrition_values_count = 1
 
     product_list = [[], [], []]
     general_product_list = []
     meal_list = []
 
-    nutrition_values_target = [0, 0]
+    nutrition_values_target = [0 for i in range(Meal.nutrition_values_count)]
     #Wyciągnąć na zewnątrz
     percent = [0.3, 0.5, 0.2]
 

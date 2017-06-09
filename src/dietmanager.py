@@ -39,9 +39,71 @@ class DietManager:
     def add_product(self, meal, product):
         if meal > 2:
             self.general_product_list.append(product)
+            product.general_product = True
         else:
             product.tabu_time *= 3
             self.product_list[meal].append(product)
+
+    def get_statistics(self):
+        average_target_function = 0
+        product_uses = {}
+
+        for day_number in range((len(self.meal_list))):
+            for meal_number in range(len(self.meal_list[day_number])):
+                for product in self.meal_list[day_number][meal_number].products:
+                    old_product = product_uses.get(product.name, [0, -1, 0])
+
+                    count_use = old_product[0] + 1
+
+                    if product.general_product:
+                        time_use = day_number * 3 + meal_number
+                    else:
+                        time_use = day_number
+
+                    avg_two_time = old_product[2] * (count_use - 2)
+
+                    if not old_product[1] == -1:
+                        old_time_use = old_product[1]
+                        avg_two_time += time_use - old_time_use
+
+                    if count_use > 1:
+                        avg_two_time /= (count_use - 1)
+
+                    product_uses[product.name] = [count_use, time_use, avg_two_time]
+
+                average_target_function += self.finder.calculate_target_function(self.meal_list[day_number][meal_number])
+
+
+        min_time_two_time_use_product = len(self.meal_list) * 3 + 1
+        average_time_two_time_use_product = {}
+        average_time_two_time_use_all_product = 0
+        unique_product_number = 0
+        non_unique_product_number = 0
+
+        for use in product_uses.items():
+            if use[1][2] < min_time_two_time_use_product and use[1][2] != 0:
+                min_time_two_time_use_product = use[1][2]
+            if use[1][2] != 0:
+                average_time_two_time_use_product[use[0]] = use[1][2]
+                average_time_two_time_use_all_product += use[1][2]
+
+            if use[1][0] == 1:
+                unique_product_number += 1
+            else:
+                non_unique_product_number += 1
+
+        average_target_function /= len(self.meal_list)*3
+        average_time_two_time_use_all_product /= non_unique_product_number
+
+        return [average_target_function,
+                min_time_two_time_use_product,
+                average_time_two_time_use_product,
+                average_time_two_time_use_all_product,
+                unique_product_number,
+                non_unique_product_number]
+
+
+
 
     def generate_n_days_diet(self, n):
         for x in range(n):

@@ -11,6 +11,7 @@ class Product:
             self.max_weight = min_weight
             self.min_weight = max_weight
         self.correct_weight(weight)
+        self.general_product = False
 
     # funkcja służąca do naprawy wagi, by mieściła się w widelkach
     def correct_weight(self, weight):

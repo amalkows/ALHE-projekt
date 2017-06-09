@@ -17,23 +17,20 @@ class DietManager:
     tabu = {}
     finder = MealFinder()
 
-#    def __init__(self, name="", nutrition_values=[0], tabu_time=1, weight_resolution=1, min_weight=1,
-#                max_weight=10, weight=1):
-
     def read_data_from_file(self, file_name):
-        with open(file_name, 'r', encoding="utf8") as file:
+        with open(file_name, 'r', encoding="ISO-8859-2") as file:
             reader = csv.reader(file, delimiter=';')
             for row in reader:
                 if not row[0].startswith('#'):
                     self.add_product(int(row[1]),
                                      Product(
                                          row[0],                                                        #Nazwa
-                                         list(map(float, row[2:2 + Meal.nutrition_values_count])),  #Wartosci odzywcze
+                                         list(map(float, row[2:2 + Meal.nutrition_values_count])),      #Wartosci odzywcze
                                          int(row[2 + Meal.nutrition_values_count]),                     #Tabu
                                          float(row[2 + Meal.nutrition_values_count + 1]),               #Rozdzielczość wagowa
-                                         int(row[2 + Meal.nutrition_values_count + 2]),               #Minimalna waga
-                                         int(row[2 + Meal.nutrition_values_count + 3]),               #Maksymalna waga
-                                         int(row[2 + Meal.nutrition_values_count + 4])                #Waga
+                                         int(row[2 + Meal.nutrition_values_count + 2]),                 #Minimalna waga
+                                         int(row[2 + Meal.nutrition_values_count + 3]),                 #Maksymalna waga
+                                         int(row[2 + Meal.nutrition_values_count + 4])                  #Waga
                                      ))
 
 

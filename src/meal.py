@@ -20,6 +20,6 @@ class Meal:
         Meal.nutrition_weights = [1 for i in range(Meal.nutrition_values_count)]
 
     max_products = 10
-    nutrition_values_count = 1
+    nutrition_values_count = 4
     nutrition_weights = [1 for i in range(nutrition_values_count)]
 

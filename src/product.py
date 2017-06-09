@@ -3,7 +3,7 @@ class Product:
                  max_weight=10, weight=1):
         self.name = name
         self.nutrition_values = nutrition_values
-        self.tabu_time = tabu_time * 3
+        self.tabu_time = tabu_time
         self.weight_resolution = weight_resolution
         self.min_weight = min_weight
         self.max_weight = max_weight
@@ -22,7 +22,7 @@ class Product:
             self.weight = self.max_weight
 
     def get_max_weight(self,nutrition_index,nutrition_weight):
-        if self.min_weight*self.weight_resolution*self.nutrition_values[nutrition_index] <= nutrition_weight :
+        if self.min_weight*self.weight_resolution*self.nutrition_values[nutrition_index] <= nutrition_weight:
             for i in range(self.max_weight,self.min_weight -1, -1):
                 if i*self.weight_resolution*self.nutrition_values[nutrition_index] <= nutrition_weight :
                     return i

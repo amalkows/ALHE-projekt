@@ -51,20 +51,10 @@ obj.read_data_from_file("..\\dane.csv")
 #obj.add_product(3, Product("Chleb", [1], 1,10, 1, 5))
 #obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
-
 obj.nutrition_values_target = [3000, 90, 75, 94]
 Meal.nutrition_values_count = 4
 Meal.set_standard_weights()
-"""
-for i in range(100):
-    obj.add_product(0, generator.generate_product())
-for i in range(100):
-    obj.add_product(1, generator.generate_product())
-for i in range(100):
-    obj.add_product(2, generator.generate_product())
-for i in range(100):
-    obj.add_product(3, generator.generate_product())
-"""
+
 
 obj.generate_n_days_diet(2)
 counter = 0
@@ -78,6 +68,9 @@ for i in obj.meal_list:
         for j in range(0,Meal.nutrition_values_count):
             print("     Wartosc odzywcza ",j,": ",i[k].nutrition_values[j], "   Wymagana: ",i[k].target_values[j])
 
+
+a = obj.get_statistics()
+print(a)
 #refektoryzacja
 #napisać bardziej generycznie
 #sprawdzić, czy to działa

@@ -8,7 +8,7 @@ obj = DietManager()
 generator = DataGenerator()
 
 
-obj.read_data_from_file("D:\\Studia\\17L\ALHE\\Projekt\\Implementacja\\ALHE-projekt\\dane.csv")
+obj.read_data_from_file("..\\dane.csv")
 
 
 #    def __init__(self, name = "", nutrion_values=[0,0], tabu_time = 1, weight = 1, weight_resolution = 1, min_weight = 1, max_weight = 10):

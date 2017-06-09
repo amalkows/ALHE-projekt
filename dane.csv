@@ -1,0 +1,6 @@
+#Nazwa;Lista [0,1,2,3];Kalorie/g;Wartosc odzywcza 1/g;Wartosc odzywcza 2/g;Wartosc odzywcza 3/g;Tabu;Rozdzielczosc wagowa[g];Minimalna liczba jednostek;Maksymalna liczba jednostek;Liczba jednostek
+Jajo;0;10;0.1;0.1;0.1;1;5;1;5;1
+Grzanka;0;5;0.1;0.1;0.1;1;10;1;5;1
+a;1;10;0.1;0.1;0.1;1;5;1;5;1
+b;2;10;0.1;0.1;0.1;1;5;1;5;1
+c;3;10;0.1;0.1;0.1;1;5;1;5;1

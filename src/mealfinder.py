@@ -23,8 +23,8 @@ class MealFinder:
     p_mutate_weight = 50
     p_mutate_delete_product = 5
 
-    # prawdopodobieństwo dodania posiłku
-    p_mutate_add_product = 25
+    # prawdopodobieństwo dodania produktu
+    p_mutate_add_product = 30
 
     # słownik: [klucz] referencja do obiektu - [wartość] jakość (funkcja celu)
     population = {}
@@ -37,7 +37,7 @@ class MealFinder:
         weights_sum = 0
         for x, y, z in zip(meal.nutrition_values, meal.nutrition_weights, self.nutrition_target):
             #result += ((x - z) ** 2) * y
-            result += abs(x - z)
+            result += abs(x - z)*y
             weights_sum += y
 
         return result / weights_sum

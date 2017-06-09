@@ -51,12 +51,12 @@ obj.read_data_from_file("..\\dane.csv")
 #obj.add_product(3, Product("Chleb", [1], 1,10, 1, 5))
 #obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
-obj.nutrition_values_target = [3000, 90, 75, 94]
+obj.nutrition_values_target = [2000, 70, 120, 230]
 Meal.nutrition_values_count = 4
 Meal.set_standard_weights()
 
 
-obj.generate_n_days_diet(2)
+obj.generate_n_days_diet(3)
 counter = 0
 for i in obj.meal_list:
     counter += 1
@@ -71,10 +71,3 @@ for i in obj.meal_list:
 
 a = obj.get_statistics()
 print(a)
-#refektoryzacja
-#napisać bardziej generycznie
-#sprawdzić, czy to działa
-#nowa selekcja
-#nowa generacja stratowej populacji
-#uwzględnić parametr maksymalnej liczności posiłku
-#API dobre do użytku

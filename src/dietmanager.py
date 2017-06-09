@@ -5,6 +5,7 @@ from src.mealfinder import MealFinder
 from src.meal import Meal
 from src.product import Product
 
+
 class DietManager:
     product_list = [[], [], []]
     general_product_list = []
@@ -24,25 +25,23 @@ class DietManager:
                 if not row[0].startswith('#'):
                     self.add_product(int(row[1]),
                                      Product(
-                                         row[0],                                                        #Nazwa
-                                         list(map(float, row[2:2 + Meal.nutrition_values_count])),      #Wartosci odzywcze
-                                         int(row[2 + Meal.nutrition_values_count]),                     #Tabu
-                                         float(row[2 + Meal.nutrition_values_count + 1]),               #Rozdzielczość wagowa
-                                         int(row[2 + Meal.nutrition_values_count + 2]),                 #Minimalna waga
-                                         int(row[2 + Meal.nutrition_values_count + 3]),                 #Maksymalna waga
-                                         int(row[2 + Meal.nutrition_values_count + 4])                  #Waga
+                                         row[0],  # Nazwa
+                                         list(map(float, row[2:2 + Meal.nutrition_values_count])),  # Wartosci odzywcze
+                                         int(row[2 + Meal.nutrition_values_count]),  # Tabu
+                                         float(row[2 + Meal.nutrition_values_count + 1]),  # Rozdzielczość wagowa
+                                         int(row[2 + Meal.nutrition_values_count + 2]),  # Minimalna waga
+                                         int(row[2 + Meal.nutrition_values_count + 3]),  # Maksymalna waga
+                                         int(row[2 + Meal.nutrition_values_count + 4])  # Waga
                                      ))
 
-
-
     # dodawanie produktów
-    def add_product(self, meal, product):
-        if meal > 2:
+    def add_product(self, meal_index, product):
+        if meal_index > 2:
             self.general_product_list.append(product)
             product.general_product = True
         else:
             product.tabu_time *= 3
-            self.product_list[meal].append(product)
+            self.product_list[meal_index].append(product)
 
     def get_statistics(self):
         average_target_function = 0
@@ -71,8 +70,8 @@ class DietManager:
 
                     product_uses[product.name] = [count_use, time_use, avg_two_time]
 
-                average_target_function += self.finder.calculate_target_function(self.meal_list[day_number][meal_number])
-
+                average_target_function += self.finder.calculate_target_function(
+                    self.meal_list[day_number][meal_number])
 
         min_time_two_time_use_product = len(self.meal_list) * 3 + 1
         average_time_two_time_use_product = {}
@@ -92,7 +91,7 @@ class DietManager:
             else:
                 non_unique_product_number += 1
 
-        average_target_function /= len(self.meal_list)*3
+        average_target_function /= len(self.meal_list) * 3
         average_time_two_time_use_all_product /= non_unique_product_number
 
         return [average_target_function,
@@ -101,9 +100,6 @@ class DietManager:
                 average_time_two_time_use_all_product,
                 unique_product_number,
                 non_unique_product_number]
-
-
-
 
     def generate_n_days_diet(self, n):
         for x in range(n):
@@ -118,10 +114,7 @@ class DietManager:
 
                 # Przeliczenie ile wartości odzywczych ma miec nastepny posilek
                 target_values = [x * self.percent[meal_number] for x in self.nutrition_values_target]
-                target_values = [x - y for x, y in zip(target_values, delta)]
-                for i in range(0, len(target_values)):
-                    if (target_values[i] < 0):
-                        target_values[i] = 0
+                target_values = [(x - y) if (x - y) > 0 else 0 for x, y in zip(target_values, delta)]
 
                 # Znalezienie posilku i zapisanie go
                 result = self.finder.find_meal(list, target_values)
@@ -132,15 +125,15 @@ class DietManager:
                 delta = [x - y for x, y in zip(result.nutrition_values, target_values)]
 
                 # Aktualizacja tabu - decrementacja licznikow, czyszczenie, dodanie nowych
-                # lista posiłków do usunięcia z tabu
-                meal_to_delte_from_tabu = []
+                # lista produktów do usunięcia z tabu
+                products_to_delete_from_tabu = []
                 for x in self.tabu.keys():
                     self.tabu[x] -= 1
                     if self.tabu[x] <= 0:
-                        meal_to_delte_from_tabu.append(x)
+                        products_to_delete_from_tabu.append(x)
 
-                # usunięcie z tabu posiłków
-                for k in meal_to_delte_from_tabu:
+                # usunięcie z tabu profuktów
+                for k in products_to_delete_from_tabu:
                     del self.tabu[k]
 
                 for x in result.products:

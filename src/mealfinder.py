@@ -41,7 +41,6 @@ class MealFinder:
 
         return result / weights_sum
 
-    # TODO - trzeba ustalić, ile selekcja będzie zwracać osobników - A.M.: wszystkich?
     def selection(self):
         selected_points = []
         sum_of_target_function = 0
@@ -124,10 +123,6 @@ class MealFinder:
         index = random.randint(0, len(potential_new_products) - 1)
         product = copy.deepcopy(potential_new_products[index])
         product.correct_weight(product.get_max_weight(index_of_nutrition,weight_of_nutrition))
-        # print("   Dodanie produktu")
-        # print("     Potrzebna waga: ", weight_of_nutrition)
-        # print("     Dodana waga: ", product.nutrition_values[index_of_nutrition]*product.weight*product.weight_resolution)
-        # print("     Min waga: ",product.nutrition_values[index_of_nutrition] * product.min_weight * product.weight_resolution)
         return product
 
     def mutate_type_product(self, product, mutated_type_products_list):
@@ -205,7 +200,7 @@ class MealFinder:
             population[meal] = self.calculate_target_function(meal)
         return population
 
-    # TODO Generowanie rozwiazania zachlannego ze wzgledu na zadany parametr
+    # generowanie rozwiazania zachlannego ze wzgledu na zadany parametr
     def generate_start_meal(self, nutrition_index):
         meal = []
         nutrition_weight = 0
@@ -235,7 +230,7 @@ class MealFinder:
 
         new_population = dict(
             Counter(new_population).most_common()[:-self.population_size + self.always_in_next_population - 1:-1])
-        old_pop = Counter(self.population).most_common();
+        #old_pop = Counter(self.population).most_common();
         old_bests = dict(Counter(self.population).most_common()[:-self.always_in_next_population - 1:-1])
 
         return dict(old_bests.items() | new_population.items())
@@ -258,8 +253,3 @@ class MealFinder:
         print(min(self.population.values()))
 
         return min(self.population, key=self.population.get)
-
-
-if __name__ == "__main__":
-    for i in range(10, 1, -1):
-        print(i)

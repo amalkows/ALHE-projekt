@@ -22,6 +22,8 @@ class Product:
         else:
             self.weight = self.max_weight
 
+    # funkcja oblicza maksymalną liczbę jednostek wagowych, które nie przekroczą zapotrzebowania
+    # na wartość odżywczą o indeksie nutrition_index i wadze nutrition_weight
     def get_max_weight(self,nutrition_index,nutrition_weight):
         if self.min_weight*self.weight_resolution*self.nutrition_values[nutrition_index] <= nutrition_weight:
             for i in range(self.max_weight,self.min_weight -1, -1):

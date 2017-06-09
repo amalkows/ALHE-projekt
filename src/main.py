@@ -7,6 +7,10 @@ from src.datagenerator import DataGenerator
 obj = DietManager()
 generator = DataGenerator()
 
+
+obj.read_data_from_file("..\\dane.csv")
+
+
 #    def __init__(self, name = "", nutrion_values=[0,0], tabu_time = 1, weight = 1, weight_resolution = 1, min_weight = 1, max_weight = 10):
 
 
@@ -48,10 +52,10 @@ generator = DataGenerator()
 #obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
 
-obj.nutrition_values_target = [3000, 300, 300, 200]
+obj.nutrition_values_target = [3000, 90, 75, 94]
 Meal.nutrition_values_count = 4
 Meal.set_standard_weights()
-
+"""
 for i in range(100):
     obj.add_product(0, generator.generate_product())
 for i in range(100):
@@ -60,8 +64,9 @@ for i in range(100):
     obj.add_product(2, generator.generate_product())
 for i in range(100):
     obj.add_product(3, generator.generate_product())
+"""
 
-obj.generate_n_days_diet(5)
+obj.generate_n_days_diet(2)
 counter = 0
 for i in obj.meal_list:
     counter += 1
@@ -70,6 +75,8 @@ for i in obj.meal_list:
         print(" Posiłek", k+1)
         for j in i[k].products:
             print("     ",j.name, j.weight)
+        for j in range(0,Meal.nutrition_values_count):
+            print("     Wartosc odzywcza ",j,": ",i[k].nutrition_values[j], "   Wymagana: ",i[k].target_values[j])
 
 #refektoryzacja
 #napisać bardziej generycznie

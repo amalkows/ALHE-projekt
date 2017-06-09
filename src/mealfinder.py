@@ -5,9 +5,8 @@ import copy
 import random
 
 
-
 class MealFinder:
-    iteration_count = 50
+    iteration_count = 100
     population_size = 30
     # elita
     always_in_next_population = 10
@@ -23,8 +22,8 @@ class MealFinder:
     p_mutate_weight = 50
     p_mutate_delete_product = 5
 
-    # prawdopodobieństwo dodania posiłku
-    p_mutate_add_product = 25
+    # prawdopodobieństwo dodania produktu
+    p_mutate_add_product = 30
 
     # słownik: [klucz] referencja do obiektu - [wartość] jakość (funkcja celu)
     population = {}
@@ -36,7 +35,8 @@ class MealFinder:
         result = 0
         weights_sum = 0
         for x, y, z in zip(meal.nutrition_values, meal.nutrition_weights, self.nutrition_target):
-            result += ((x - z) ** 2) * y
+            # result += ((x - z) ** 2) * y
+            result += abs(x - z) * y
             weights_sum += y
 
         return result / weights_sum
@@ -87,9 +87,15 @@ class MealFinder:
                 mutated_products.append(copy.deepcopy(product))
 
         if uniform(0, 100) < self.p_mutate_add_product and len(mutated_products) < Meal.max_products:
-            new_meal = self.mutate_add_product(mutated_products)
-            if new_meal is not None:
-                mutated_products.append(new_meal)
+            calculated_meal = Meal(mutated_products)
+            calculated_meal.calculate_nutrition_values()
+            for i in range(0, Meal.nutrition_values_count):
+                nutrition_weight_difference = self.nutrition_target[i] - calculated_meal.nutrition_values[i]
+                if (nutrition_weight_difference > 0):
+                    new_product = self.mutate_add_product(mutated_products, i, nutrition_weight_difference)
+                    if new_product is not None:
+                         mutated_products.append(new_product)
+                    break;
 
         new_element = Meal(mutated_products)
         new_element.calculate_nutrition_values()
@@ -108,7 +114,7 @@ class MealFinder:
 
         return new_element
 
-    def mutate_add_product(self, mutated_products):
+    def mutate_add_product(self, mutated_products, index_of_nutrition, weight_of_nutrition):
         potential_new_products = [item for item in self.product_list if
                                   next((i for i in mutated_products if i.name == item.name), None) is None]
 
@@ -117,7 +123,11 @@ class MealFinder:
 
         index = random.randint(0, len(potential_new_products) - 1)
         product = copy.deepcopy(potential_new_products[index])
-
+        product.correct_weight(product.get_max_weight(index_of_nutrition,weight_of_nutrition))
+        # print("   Dodanie produktu")
+        # print("     Potrzebna waga: ", weight_of_nutrition)
+        # print("     Dodana waga: ", product.nutrition_values[index_of_nutrition]*product.weight*product.weight_resolution)
+        # print("     Min waga: ",product.nutrition_values[index_of_nutrition] * product.min_weight * product.weight_resolution)
         return product
 
     def mutate_type_product(self, product, mutated_type_products_list):
@@ -134,7 +144,7 @@ class MealFinder:
 
         new_element.correct_weight(product.weight)
 
-        for i in range(len(mutated_type_products_list)-1):
+        for i in range(len(mutated_type_products_list) - 1):
             if mutated_type_products_list[i] == product.name:
                 mutated_type_products_list[i] = available_types[index].name
                 break
@@ -246,7 +256,6 @@ class MealFinder:
             self.population = self.generate_new_population(mutated)
 
         print(min(self.population.values()))
-
 
         return min(self.population, key=self.population.get)
 

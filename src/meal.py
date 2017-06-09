@@ -6,6 +6,8 @@ class Meal:
         self.products = copy.deepcopy(products)
         self.nutrition_values = []
         self.calculate_nutrition_values()
+        #Do debugowania
+        self.target_values = []
 
     def calculate_nutrition_values(self):
         self.nutrition_values = [0 for i in range(Meal.nutrition_values_count)]
@@ -18,6 +20,6 @@ class Meal:
         Meal.nutrition_weights = [1 for i in range(Meal.nutrition_values_count)]
 
     max_products = 10
-    nutrition_values_count = 1
+    nutrition_values_count = 4
     nutrition_weights = [1 for i in range(nutrition_values_count)]
 

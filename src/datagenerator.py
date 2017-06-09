@@ -9,8 +9,8 @@ import random
 
 class DataGenerator:
 
-    max_nutrion_value_kal_per_g = 100
-    max_nutrion_value_per_g = 10
+    max_nutrition_value_kal_per_g = 100
+    max_nutrition_value_per_g = 0.5
     min_tabu_time = 1
     max_tabu_time = 10
     avg_tabu_time = 4
@@ -25,13 +25,25 @@ class DataGenerator:
     min_max_weight = 1
     max_max_weight = 300
 
-    generated_items = 0;
+    generated_items = 0
 
     def generate_product(self):
         self.generated_items += 1
+
+        tmp = 1
+
+        nutrition_values = []
+
+        for i in range(Meal.nutrition_values_count - 1):
+            value = uniform(0, min(tmp, self.max_nutrition_value_per_g))
+            tmp -= value
+            nutrition_values.append(value)
+
+        random.shuffle(nutrition_values)
+
         return Product(str(self.generated_items),
-                       [random.randint(1, self.max_nutrion_value_kal_per_g)]+
-                       [random.randint(1, self.max_nutrion_value_per_g) for value in range(Meal.nutrition_values_count)],
+                       [random.randint(1, self.max_nutrition_value_kal_per_g)] +
+                       nutrition_values,
                        round(min(self.max_tabu_time, max(self.min_tabu_time, random.gauss(self.avg_tabu_time, self.sigma_tabu_time)))),
                        round(min(self.max_weight_resolution,
                            max(0, random.gauss(self.avg_weight_resolution, self.sigma_weight_resolution)))),

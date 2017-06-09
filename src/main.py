@@ -48,7 +48,7 @@ generator = DataGenerator()
 #obj.add_product(3, Product("Marchew", [1], 1, 1, 1, 150))
 
 
-obj.nutrition_values_target = [3000, 300, 300, 200]
+obj.nutrition_values_target = [3000, 90, 75, 94]
 Meal.nutrition_values_count = 4
 Meal.set_standard_weights()
 

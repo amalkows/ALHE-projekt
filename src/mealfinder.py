@@ -124,10 +124,10 @@ class MealFinder:
         index = random.randint(0, len(potential_new_products) - 1)
         product = copy.deepcopy(potential_new_products[index])
         product.correct_weight(product.get_max_weight(index_of_nutrition,weight_of_nutrition))
-        print("   Dodanie produktu")
-        print("     Potrzebna waga: ", weight_of_nutrition)
-        print("     Dodana waga: ", product.nutrition_values[index_of_nutrition]*product.weight*product.weight_resolution)
-        print("     Min waga: ",product.nutrition_values[index_of_nutrition] * product.min_weight * product.weight_resolution)
+        # print("   Dodanie produktu")
+        # print("     Potrzebna waga: ", weight_of_nutrition)
+        # print("     Dodana waga: ", product.nutrition_values[index_of_nutrition]*product.weight*product.weight_resolution)
+        # print("     Min waga: ",product.nutrition_values[index_of_nutrition] * product.min_weight * product.weight_resolution)
         return product
 
     def mutate_type_product(self, product, mutated_type_products_list):

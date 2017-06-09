@@ -70,6 +70,8 @@ for i in obj.meal_list:
         print(" Posiłek", k+1)
         for j in i[k].products:
             print("     ",j.name, j.weight)
+        for j in range(0,Meal.nutrition_values_count):
+            print("     Wartosc odzywcza ",j,": ",i[k].nutrition_values[j], "   Wymagana: ",i[k].target_values[j])
 
 #refektoryzacja
 #napisać bardziej generycznie

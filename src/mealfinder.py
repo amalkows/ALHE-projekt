@@ -7,7 +7,7 @@ import random
 
 
 class MealFinder:
-    iteration_count = 50
+    iteration_count = 100
     population_size = 30
     # elita
     always_in_next_population = 10
@@ -36,7 +36,8 @@ class MealFinder:
         result = 0
         weights_sum = 0
         for x, y, z in zip(meal.nutrition_values, meal.nutrition_weights, self.nutrition_target):
-            result += ((x - z) ** 2) * y
+            #result += ((x - z) ** 2) * y
+            result += abs(x - z)
             weights_sum += y
 
         return result / weights_sum

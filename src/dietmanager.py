@@ -1,3 +1,5 @@
+import copy
+
 from src.mealfinder import MealFinder
 from src.meal import Meal
 
@@ -39,6 +41,7 @@ class DietManager:
 
                 #Znalezienie posilku i zapisanie go
                 result = self.finder.find_meal(list, target_values)
+                result.target_values = copy.copy(target_values)
                 day_meal.append(result)
 
                 #Policzenie odchylu od zadanych wartosci

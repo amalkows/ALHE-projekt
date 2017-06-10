@@ -4,8 +4,8 @@ from random import uniform
 import copy
 import random
 
-#    def __init__(self, name="", nutrition_values=[0], tabu_time=1, weight_resolution=1, min_weight=1,
-#                 max_weight=10, weight=1):
+# Klasa do generacji produktów
+
 
 class DataGenerator:
 

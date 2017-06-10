@@ -12,8 +12,7 @@ class DietManager:
     meal_list = []
 
     nutrition_values_target = [0 for i in range(Meal.nutrition_values_count)]
-    # Wyciągnąć na zewnątrz
-    percent = [0.3, 0.5, 0.2]
+    meal_percent_values = [0.3, 0.5, 0.2]
 
     tabu = {}
     finder = MealFinder()
@@ -46,6 +45,7 @@ class DietManager:
     def get_statistics(self):
         average_target_function = 0
         product_uses = {}
+        min_time_two_time_use_product = len(self.meal_list) * 3 + 1
 
         for day_number in range((len(self.meal_list))):
             for meal_number in range(len(self.meal_list[day_number])):
@@ -64,6 +64,8 @@ class DietManager:
                     if not old_product[1] == -1:
                         old_time_use = old_product[1]
                         avg_two_time += time_use - old_time_use
+                        if time_use - old_time_use < min_time_two_time_use_product and time_use - old_time_use != 0:
+                            min_time_two_time_use_product = time_use - old_time_use
 
                     if count_use > 1:
                         avg_two_time /= (count_use - 1)
@@ -71,15 +73,12 @@ class DietManager:
                     product_uses[product.name] = [count_use, time_use, avg_two_time]
                 average_target_function += self.meal_list[day_number][meal_number].target_function_value
 
-        min_time_two_time_use_product = len(self.meal_list) * 3 + 1
         average_time_two_time_use_product = {}
         average_time_two_time_use_all_product = 0
         unique_product_number = 0
         non_unique_product_number = 0
 
         for use in product_uses.items():
-            if use[1][2] < min_time_two_time_use_product and use[1][2] != 0:
-                min_time_two_time_use_product = use[1][2]
             if use[1][2] != 0:
                 average_time_two_time_use_product[use[0]] = use[1][2]
                 average_time_two_time_use_all_product += use[1][2]
@@ -111,7 +110,7 @@ class DietManager:
                 list = [item for item in list if self.tabu.get(item.name) is None]
 
                 # Przeliczenie ile wartości odzywczych ma miec nastepny posilek
-                target_values = [x * self.percent[meal_number] for x in self.nutrition_values_target]
+                target_values = [x * self.meal_percent_values[meal_number] for x in self.nutrition_values_target]
                 target_values = [(x - y) if (x - y) > 0 else 0 for x, y in zip(target_values, delta)]
 
                 # Znalezienie posilku i zapisanie go

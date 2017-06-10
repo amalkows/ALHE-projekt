@@ -250,6 +250,8 @@ class MealFinder:
 
             self.population = self.generate_new_population(mutated)
 
-        print(min(self.population.values()))
+        #print(min(self.population.values()))
 
-        return min(self.population, key=self.population.get)
+        result = min(self.population, key=self.population.get)
+        result.target_function_value = min(self.population.values())
+        return result

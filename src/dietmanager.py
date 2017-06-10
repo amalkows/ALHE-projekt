@@ -69,9 +69,7 @@ class DietManager:
                         avg_two_time /= (count_use - 1)
 
                     product_uses[product.name] = [count_use, time_use, avg_two_time]
-
-                average_target_function += self.finder.calculate_target_function(
-                    self.meal_list[day_number][meal_number])
+                average_target_function += self.meal_list[day_number][meal_number].target_function_value
 
         min_time_two_time_use_product = len(self.meal_list) * 3 + 1
         average_time_two_time_use_product = {}
@@ -118,6 +116,7 @@ class DietManager:
 
                 # Znalezienie posilku i zapisanie go
                 result = self.finder.find_meal(list, target_values)
+
                 result.target_values = copy.copy(target_values)
                 day_meal.append(result)
 

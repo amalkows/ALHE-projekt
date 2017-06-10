@@ -8,6 +8,7 @@ class Meal:
         self.calculate_nutrition_values()
         #Do debugowania
         self.target_values = []
+        self.target_function_value = -1
 
     def calculate_nutrition_values(self):
         self.nutrition_values = [0 for i in range(Meal.nutrition_values_count)]

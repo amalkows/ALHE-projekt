@@ -6,14 +6,14 @@ import random
 
 
 class MealFinder:
-    iteration_count = 100
+    iteration_count = 25
     population_size = 30
     # elita
-    always_in_next_population = 4
+    always_in_next_population = 10
 
     # w przypadku krzyżowania każdy produkt w posiłku może zamienić typ z produktem z innego posiłku
     # prawdopodobieństwo krzyżowania
-    p_cross = 25
+    p_cross = 100
     # prawdopodobieństwo zmiany typu w przypadku krzyżowania
     p_cross_product_type = 15
 
@@ -102,9 +102,7 @@ class MealFinder:
         return new_element
 
     def mutate_weight_product(self, element):
-
         new_element = copy.deepcopy(element)
-        # wykorzystać correct_weight
         random_number = random.randint(0, 1)
         if random_number == 0 and new_element.weight > new_element.min_weight:
             new_element.weight -= 1
@@ -147,7 +145,6 @@ class MealFinder:
         return new_element
 
     def cross(self, population):
-        # return population
         new_population = []
         for item in population:
             item_cross = uniform(0, 100)
@@ -181,7 +178,6 @@ class MealFinder:
 
         return new_meal
 
-    # działa, ale pomyśleć nad refaktoryzacją
     def cross_product_type(self, product_base, product2):
         product_base.name = product2.name
         product_base.min_weight = product2.min_weight
@@ -201,7 +197,7 @@ class MealFinder:
             population[meal] = self.calculate_target_function(meal)
         return population
 
-    # generowanie rozwiazania zachlannego ze wzgledu na zadany parametr
+    # generowanie posiłku, który brutalnie spełnia ograniczenie wartości odżywczej o indeksie nutrition_index
     def generate_start_meal(self, nutrition_index):
         meal = []
         nutrition_weight = 0

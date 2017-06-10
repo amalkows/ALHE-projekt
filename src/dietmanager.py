@@ -18,7 +18,7 @@ class DietManager:
     finder = MealFinder()
 
     def read_data_from_file(self, file_name):
-        with open(file_name, 'r', encoding="ANSI") as file:
+        with open(file_name, 'r') as file:
             reader = csv.reader(file, delimiter=';')
             for row in reader:
                 if not row[0].startswith('#'):
@@ -42,6 +42,7 @@ class DietManager:
             product.tabu_time *= 3
             self.product_list[meal_index].append(product)
 
+    #przygotowanie statystyk
     def get_statistics(self):
         average_target_function = 0
         product_uses = {}
@@ -122,7 +123,8 @@ class DietManager:
                 # Policzenie odchylu od zadanych wartosci
                 delta = [x - y for x, y in zip(result.nutrition_values, target_values)]
 
-                # Aktualizacja tabu - decrementacja licznikow, czyszczenie, dodanie nowych
+                # Aktualizacja tabu - dekrementacja licznikow, czyszczenie, dodanie nowych
+
                 # lista produktów do usunięcia z tabu
                 products_to_delete_from_tabu = []
                 for x in self.tabu.keys():
@@ -130,7 +132,7 @@ class DietManager:
                     if self.tabu[x] <= 0:
                         products_to_delete_from_tabu.append(x)
 
-                # usunięcie z tabu profuktów
+                # usunięcie z tabu produktów
                 for k in products_to_delete_from_tabu:
                     del self.tabu[k]
 

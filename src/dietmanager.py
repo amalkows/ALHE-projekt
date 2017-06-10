@@ -19,7 +19,7 @@ class DietManager:
     finder = MealFinder()
 
     def read_data_from_file(self, file_name):
-        with open(file_name, 'r', encoding="ISO-8859-2") as file:
+        with open(file_name, 'r', encoding="ANSI") as file:
             reader = csv.reader(file, delimiter=';')
             for row in reader:
                 if not row[0].startswith('#'):

@@ -56,7 +56,7 @@ Meal.nutrition_values_count = 4
 Meal.set_standard_weights()
 
 
-obj.generate_n_days_diet(3)
+obj.generate_n_days_diet(7)
 counter = 0
 for i in obj.meal_list:
     counter += 1

@@ -188,6 +188,7 @@ class MealFinder:
         product_base.max_weight = product2.max_weight
         product_base.weight_resolution = product2.weight_resolution
         product_base.nutrition_values = product2.nutrition_values
+        product_base.general_product = product2.general_product
 
         product_base.correct_weight(product_base.weight)
 
@@ -230,7 +231,6 @@ class MealFinder:
 
         new_population = dict(
             Counter(new_population).most_common()[:-self.population_size + self.always_in_next_population - 1:-1])
-        #old_pop = Counter(self.population).most_common();
         old_bests = dict(Counter(self.population).most_common()[:-self.always_in_next_population - 1:-1])
 
         return dict(old_bests.items() | new_population.items())
@@ -249,8 +249,6 @@ class MealFinder:
             mutated = self.mutation(crossed)
 
             self.population = self.generate_new_population(mutated)
-
-        #print(min(self.population.values()))
 
         result = min(self.population, key=self.population.get)
         result.target_function_value = min(self.population.values())

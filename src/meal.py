@@ -6,7 +6,6 @@ class Meal:
         self.products = copy.deepcopy(products)
         self.nutrition_values = []
         self.calculate_nutrition_values()
-        #Do debugowania
         self.target_values = []
         self.target_function_value = -1
 

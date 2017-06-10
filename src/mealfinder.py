@@ -9,7 +9,7 @@ class MealFinder:
     iteration_count = 100
     population_size = 30
     # elita
-    always_in_next_population = 10
+    always_in_next_population = 4
 
     # w przypadku krzyżowania każdy produkt w posiłku może zamienić typ z produktem z innego posiłku
     # prawdopodobieństwo krzyżowania

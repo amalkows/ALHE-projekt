@@ -53,10 +53,10 @@ obj.read_data_from_file("..\\dane.csv")
 
 obj.nutrition_values_target = [2000, 70, 120, 230]
 Meal.nutrition_values_count = 4
-Meal.set_standard_weights()
+Meal.nutrition_weights = [1,10,10,10]
 
 
-obj.generate_n_days_diet(3)
+obj.generate_n_days_diet(7)
 counter = 0
 for i in obj.meal_list:
     counter += 1
@@ -68,6 +68,33 @@ for i in obj.meal_list:
         for j in range(0,Meal.nutrition_values_count):
             print("     Wartosc odzywcza ",j,": ",i[k].nutrition_values[j], "   Wymagana: ",i[k].target_values[j])
 
+plik = open('test', 'w')
+plik.write("\n")
+for i in obj.meal_list:
+    for k in [0,1,2]:
+        blad_wzgledny = (abs(i[k].nutrition_values[0] - i[k].target_values[0])/i[k].target_values[0])*100
+        plik.write(str(blad_wzgledny))
+        plik.write('\n')
+plik.write("\n")
+for i in obj.meal_list:
+    for k in [0,1,2]:
+        blad_wzgledny = (abs(i[k].nutrition_values[1] - i[k].target_values[1])/i[k].target_values[1])*100
+        plik.write(str(blad_wzgledny))
+        plik.write('\n')
+plik.write("\n")
+for i in obj.meal_list:
+    for k in [0,1,2]:
+        blad_wzgledny = (abs(i[k].nutrition_values[2] - i[k].target_values[2])/i[k].target_values[2])*100
+        plik.write(str(blad_wzgledny))
+        plik.write('\n')
+plik.write("\n")
+for i in obj.meal_list:
+    for k in [0,1,2]:
+        blad_wzgledny = (abs(i[k].nutrition_values[3] - i[k].target_values[3])/i[k].target_values[3])*100
+        plik.write(str(blad_wzgledny))
+        plik.write('\n')
+
+plik.close()
 
 a = obj.get_statistics()
 print(a)
